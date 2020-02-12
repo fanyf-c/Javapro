@@ -1,7 +1,10 @@
+import java.io.Serializable;
+
 /**
  * Created by yufeng on 2020/2/10.
  */
-public class MyBook {
+public class MyBook implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String name;
     private double price;
     private String press;
