@@ -1,3 +1,4 @@
+import java.io.*;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,8 +10,15 @@ import java.util.Scanner;
 public class Test {
     public static MyBook [] myBooks = new MyBook[200];
     public static List<MyBook>list =new ArrayList<>();
+    public static File file = new File("d:/books");
     public static void main(String[] args) {
-        inputData(list);
+        if(!file.exists()){
+            inputData(list);
+            save();
+        }else{
+            read();
+        }
+        //inputData(list);
         menu();
         //print(list);
         //searchname(list,"书名2");
@@ -24,12 +32,13 @@ public class Test {
             MyBook myBook = new MyBook("书名"+i,Double.valueOf(String.valueOf(i)),"出版社"+i+"号","作者"+i+"号","出版社"+i+"号");
             books.add(myBook);
         }
+        menu();
     }
     public static void print(List<MyBook>books){
         for(int i = 0; i<books.size();i++){
             System.out.println(books.get(i));
-            menu();
         }
+        menu();
     }
     public static void searchname(List<MyBook>books,String name){
         for(int i = 0 ;i<books.size();i++){
@@ -49,6 +58,7 @@ public class Test {
             if(myBook.getName().equals(name)){
                 books.remove(myBook);
                 System.out.println("删除成功");
+                save();
                 menu();
                 return;
             }
@@ -70,6 +80,7 @@ public class Test {
         String ibsn=scanner.next();
         MyBook mybook = new MyBook(name,price,press,author,ibsn);
         books.add(mybook);
+        save();
         menu();
     }
     public static void menu(){
@@ -87,13 +98,11 @@ public class Test {
                 break;
             case 2:
                 System.out.println("删除图书名");
-                Scanner scanner1=new Scanner(System.in);
                 String name=scanner.next();
                 deletename(list,name);
                 break;
             case 3:
                 System.out.println("查看图书名");
-                Scanner scanner2=new Scanner(System.in);
                 String searchname=scanner.next();
                 searchname(list,searchname);
                 break;
@@ -102,7 +111,55 @@ public class Test {
                 break;
             default:
                 System.exit(1);
-                break;
         }
+    }
+    public static void save(){
+        OutputStream os = null;
+        ObjectOutputStream oos = null;
+        try {
+            os = new FileOutputStream(file);
+            oos = new ObjectOutputStream(os);
+            oos.writeObject(list);
+            oos.flush();
+            os.flush();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(oos!=null)
+                    oos.close();
+                if(os!=null)
+                    os.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+    public static void read(){
+        InputStream is  = null;
+        ObjectInputStream ois = null;
+        try {
+            is = new FileInputStream(file);
+            ois = new ObjectInputStream(is);
+            list = (List<MyBook>)ois.readObject();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(ois!=null)
+                    ois.close();
+                if(is!=null)
+                    is.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
