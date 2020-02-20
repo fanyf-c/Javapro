@@ -63,17 +63,115 @@ public class StudentDao implements IStudentDao{
 
     @Override
     public int add(Student student) {
-        return 0;
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            // 加载驱动
+            Class.forName("com.mysql.jdbc.Driver");
+            // 创建连接
+            con = DriverManager.getConnection(url,username,password);
+            // 创建命令行 写sql语句
+            pstmt = con.prepareStatement("insert into student(Sno,Sname,Sex,Sage,Sdept) values(?,?,?,?,?)");
+            // 设置 问好的值
+            pstmt.setInt(1,student.getSno());
+            pstmt.setString(2,student.getSname());
+            pstmt.setString(3,student.getSex());
+            pstmt.setInt(4,student.getSage());
+            pstmt.setString(5,student.getSdept());
+            // 执行sql语句
+            // 如果是查询  调用 executeQuery方法 返回一个 ResultSet 结果集
+            i = pstmt.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(pstmt != null)
+                    pstmt.close();
+                if(con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return i;
+
     }
 
     @Override
     public int update(Student student) {
-        return 0;
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            // 加载驱动
+            Class.forName("com.mysql.jdbc.Driver");
+            // 创建连接
+            con = DriverManager.getConnection(url,username,password);
+            // 创建命令行 写sql语句
+            pstmt = con.prepareStatement("update student set Sname=?,Sex=?,Sage=?,Sdept=? where Sno=?");
+            // 设置 问好的值
+            pstmt.setString(1,student.getSname());
+            pstmt.setString(2,student.getSex());
+            pstmt.setInt(3,student.getSage());
+            pstmt.setString(4,student.getSdept());
+            pstmt.setInt(5,student.getSno());
+            // 执行sql语句
+            // 如果是查询  调用 executeQuery方法 返回一个 ResultSet 结果集
+            i = pstmt.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(pstmt != null)
+                    pstmt.close();
+                if(con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return i;
+
     }
 
     @Override
-    public int del(int id) {
-        return 0;
+    public int del(int Sno) {
+        int i = 0;
+        Connection con = null;
+        PreparedStatement pstmt = null;
+        try {
+            // 加载驱动
+            Class.forName("com.mysql.jdbc.Driver");
+            // 创建连接
+            con = DriverManager.getConnection(url,username,password);
+            // 创建命令行 写sql语句
+            pstmt = con.prepareStatement("delete from student where Sno=?");
+            // 设置 问好的值
+            pstmt.setInt(1,Sno);
+            // 执行sql语句
+            // 如果是查询  调用 executeQuery方法 返回一个 ResultSet 结果集
+            i = pstmt.executeUpdate();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            try {
+                if(pstmt != null)
+                    pstmt.close();
+                if(con != null)
+                    con.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return i;
+
     }
 
     @Override

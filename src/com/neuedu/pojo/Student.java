@@ -10,6 +10,17 @@ public class Student {
     private Integer Sage;
     private String Sdept;
 
+    public Student() {
+    }
+
+    public Student(Integer sno, String sname, String sex, Integer sage, String sdept) {
+        Sno = sno;
+        Sname = sname;
+        Sex = sex;
+        Sage = sage;
+        Sdept = sdept;
+    }
+
     public Integer getSno() {
         return Sno;
     }

@@ -18,17 +18,18 @@ public class StudentService implements IStudentService{
 
     @Override
     public int add(Student student) {
-        return 0;
+        return iStudentDao.add(student);
+
     }
 
     @Override
     public int update(Student student) {
-        return 0;
+        return iStudentDao.update(student);
     }
 
     @Override
-    public int del(int id) {
-        return 0;
+    public int del(int Sno) {
+        return iStudentDao.del(Sno);
     }
 
     @Override
